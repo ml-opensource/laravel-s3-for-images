@@ -3,7 +3,6 @@
 namespace Fuzz\S3ForImages\Tests;
 
 use Aws\S3\S3Client;
-use Fuzz\S3ForImages\Traits\HasImageAttributes;
 use Fuzz\S3ForImages\Traits\S3ForImages;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Model;
@@ -141,8 +140,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->getRawImageUrl('file_key.png', 'aws_bucket');
 
@@ -167,8 +165,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('not_config_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->getRawImageUrl('file_key.png', 'not_config_bucket');
 
@@ -193,8 +190,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->getImageUrl('file_key.png');
 
@@ -220,8 +216,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		config(['services.default_cdn' => 'doesnt_exist']);
 
@@ -249,8 +244,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->getImageUrl('file_key.png', 'http://customcdn.com');
 
@@ -276,8 +270,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('custom_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->getImageUrl('file_key.png', null, 'custom_bucket');
 
@@ -289,7 +282,7 @@ class S3ForImagesTest extends TestCase
 	{
 		$user = new User;
 
-		$file = $this->getTestFileStream('tools/fuzzpro.png');
+		$file       = $this->getTestFileStream('tools/fuzzpro.png');
 		$b64_string = base64_encode($file);
 
 		$filesystem_mock        = Mockery::mock(Filesystem::class);
@@ -304,8 +297,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->once()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->once()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->pushBase64ImageToS3('file_key', $b64_string, 'public');
 
@@ -342,8 +334,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->twice()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->twice()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->pushFileToS3('file_key', $file, 'public');
 
@@ -395,8 +386,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->twice()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->twice()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->pushImageToS3('file_key', $file, 'public');
 
@@ -408,7 +398,7 @@ class S3ForImagesTest extends TestCase
 	{
 		$user = new User;
 
-		$file = $this->getTestFileStream('tools/fuzzpro.png');
+		$file       = $this->getTestFileStream('tools/fuzzpro.png');
 		$b64_string = base64_encode($file);
 
 		$filesystem_mock        = Mockery::mock(Filesystem::class);
@@ -423,8 +413,7 @@ class S3ForImagesTest extends TestCase
 		$s3_client_class->shouldReceive('getObjectUrl')->once()->with('aws_bucket', 'file_key.png')
 			->andReturn('http://s3.com/file_key.png');
 
-		Storage::shouldReceive('disk')->twice()->with('s3')
-			->andReturn($filesystem_mock);
+		Storage::shouldReceive('disk')->twice()->with('s3')->andReturn($filesystem_mock);
 
 		$url = $user->pushImageToS3('file_key', $b64_string, 'public');
 
@@ -462,7 +451,7 @@ class S3ForImagesTest extends TestCase
 
 class User extends Model
 {
-	use S3ForImages, HasImageAttributes;
+	use S3ForImages;
 
 	/**
 	 * Upload the image and set the attribute.
