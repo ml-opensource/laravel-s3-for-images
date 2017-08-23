@@ -8,7 +8,7 @@
 		}
 	],
 	"require": {
-		"laravel/framework": "5.2.x",
+		"laravel/framework": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
 		"league/flysystem-aws-s3-v3": "1.0.6"
 	},
 	"require-dev": {
